@@ -5,4 +5,4 @@
 ## 1.Filter
 
 * `filter` - filter the items by category and price range
-  https://github.com/humonnom/simple-market/issues/1
+* [issues 1](https://github.com/humonnom/simple-market/issues/1)
