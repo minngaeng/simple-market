@@ -1,10 +1,7 @@
 # simple-market
 
 * Boilerplate for simple market web page
-
-## 0. 구현 주의사항
-* 시맨틱한 태그 사용
-* 접근성을 고려한 태그 선택
+<img width="300" alt="Screenshot 2024-03-18 at 9 44 16 PM" src="https://github.com/humonnom/simple-market/assets/54441505/23650ca9-e0c0-4118-8d5c-517cba8da2a8">
 
 ## 1.Filter
 
