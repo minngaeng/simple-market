@@ -1,12 +1,7 @@
 import { useGetCategories } from '../hooks/useGetCategories.ts';
-import { useEffect } from 'react';
 
 const Marketplace = () => {
     const { categories } = useGetCategories();
-
-    useEffect(() => {
-        console.log('categories', categories);
-    }, [categories]);
 
     return (
         <div>
