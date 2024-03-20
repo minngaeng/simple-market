@@ -19,6 +19,32 @@ const MoreButton = styled.button`
     width: 100%;
 `;
 
+const PriceRangeWrapper = styled.div``;
+
+const PriceRange = styled.p`
+    cursor: pointer;
+    &:hover {
+        color: #0173e9;
+        background-color: #fafafa;
+    }
+`;
+
+const PriceInput = styled.input`
+    width: 10%;
+`;
+
+const ApplyButton = styled.button`
+    padding: 0;
+    margin: 0 0 0 5px;
+
+    border-radius: 0px;
+    background-color: rgb(1, 115, 233);
+    color: white;
+    &:hover {
+        background-color: #609bef;
+    }
+`;
+
 import { useGetCategories } from '../hooks/useGetCategories.ts';
 
 const Marketplace = () => {
@@ -35,8 +61,18 @@ const Marketplace = () => {
                             {category.name}
                         </CategoryContents>
                     ))}
+                    <MoreButton>더 보기</MoreButton>
                 </CategoryWrapper>
-                <MoreButton>더 보기</MoreButton>
+                <PriceRangeWrapper>
+                    <h3>가격</h3>
+                    <PriceRange>가격 전체</PriceRange>
+                    <PriceRange>10달러 ~ 30달러</PriceRange>
+                    <PriceRange>30달러 ~ 50달러</PriceRange>
+                    <p>
+                        <PriceInput /> ~ <PriceInput /> 원{' '}
+                        <ApplyButton>적용</ApplyButton>
+                    </p>
+                </PriceRangeWrapper>
             </div>
         </div>
     );
