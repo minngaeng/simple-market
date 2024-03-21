@@ -37,6 +37,16 @@ const Marketplace = () => {
         }
     }, []);
 
+    const handleCategoryClick = (categoryId: number) => {
+        const param = new URLSearchParams(window.location.search);
+        param.set('categoryId', categoryId.toString());
+        const newRelativePathQuery =
+            window.location.pathname + '?' + param.toString();
+
+        window.history.pushState(null, '', newRelativePathQuery);
+        console.log(1);
+    };
+
     const [priceMin, setPriceMin] = useState<string>('');
     const [priceMax, setPriceMax] = useState<string>('');
 
