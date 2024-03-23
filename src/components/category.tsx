@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Category as CategoryType } from '../types';
-
+import { useMemo } from 'react';
 const CategoryWrapper = styled.div`
     list-style: none;
 `;
@@ -30,11 +30,16 @@ const Category = () => {
         setVisibleCategories(categories.slice(0, 5));
     }, [categories]);
 
-    const [isAllCategoriesVisible, setIsAllCategoriesVisible] = useState(false);
+    const isAllVisible = useMemo(() => {
+        return visibleCategories.length > 5
+    }, [visibleCategories])
 
-    const handleShowMoreClick = () => {
-        setVisibleCategories(categories);
-        setIsAllCategoriesVisible(true);
+    const handleShowMoreClick = (showMore: boolean) => {
+        if (showMore) {
+            setVisibleCategories(categories);
+        } else {
+            setVisibleCategories(categories.slice(0, 5));
+        }
     };
 
     const handleCategoryClick = (categoryId: number) => {
@@ -58,11 +63,10 @@ const Category = () => {
                         {category.name}
                     </CategoryContents>
                 ))}
-                {!isAllCategoriesVisible && categories.length > 5 && (
-                    <MoreButton onClick={handleShowMoreClick}>
-                        더 보기
-                    </MoreButton>
-                )}
+                <MoreButton onClick={() => handleShowMoreClick(!isAllVisible)}>
+                    {isAllVisible ? '닫기' : '더 보기'}
+                </MoreButton>
+
             </CategoryWrapper>
         </div>
     );
