@@ -42,6 +42,13 @@ const Category = () => {
         }
     };
 
+    const isSelected = (categoryId: number) => {
+        const param = new URLSearchParams(window.location.search);
+        console.log(param.get('categoryId'));
+        return categoryId === Number(param.get('categoryId'));
+        // TODO: Return true if the category is selected(not working yet)
+    }
+
     const handleCategoryClick = (categoryId: number) => {
         const param = new URLSearchParams(window.location.search);
         param.set('categoryId', categoryId.toString());
@@ -59,6 +66,9 @@ const Category = () => {
                     <CategoryContents
                         key={category.id}
                         onClick={() => handleCategoryClick(category.id)}
+                        style={{
+                            backgroundColor: isSelected(category.id) ? 'yellow' : ''
+                        }}
                     >
                         {category.name}
                     </CategoryContents>
