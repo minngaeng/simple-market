@@ -1,24 +1,5 @@
 import styled from 'styled-components';
 
-const CategoryWrapper = styled.div`
-    list-style: none;
-`;
-
-const CategoryContents = styled.p`
-    margin: 10px 0;
-    height: 30px;
-    border-radius: 15px;
-    border: 1px solid lightgray;
-    cursor: pointer;
-    &:hover {
-        background-color: #ededed;
-    }
-`;
-
-const MoreButton = styled.button`
-    width: 100%;
-`;
-
 const PriceRangeWrapper = styled.div``;
 
 const PriceRange = styled.p`
@@ -45,37 +26,16 @@ const ApplyButton = styled.button`
     }
 `;
 
-import { useGetCategories } from '../hooks/useGetCategories.ts';
 import { useEffect, useState } from 'react';
+import Category from './category.tsx';
 
 const Marketplace = () => {
-    const { categories } = useGetCategories();
-
-    const [visibleCategories, setVisibleCategories] = useState(
-        categories.slice(0, 5)
-    );
-    const [isAllCategoriesVisible, setIsAllCategoriesVisible] = useState(false);
-
-    const handleShowMoreClick = () => {
-        setVisibleCategories(categories);
-        setIsAllCategoriesVisible(true);
-    };
-
     useEffect(() => {
         const param = new URLSearchParams(window.location.search);
         if (!param.has('categoryId')) {
             window.history.pushState(null, '', window.location.pathname);
         }
     }, []);
-
-    const handleCategoryClick = (categoryId: number) => {
-        const param = new URLSearchParams(window.location.search);
-        param.set('categoryId', categoryId.toString());
-        const newRelativePathQuery =
-            window.location.pathname + '?' + param.toString();
-
-        window.history.pushState(null, '', newRelativePathQuery);
-    };
 
     const [priceMin, setPriceMin] = useState<string>('');
     const [priceMax, setPriceMax] = useState<string>('');
@@ -113,21 +73,7 @@ const Marketplace = () => {
             <h1>Marketplace</h1>
             <div>
                 <h2>Filter</h2>
-                <CategoryWrapper>
-                    {visibleCategories.map((category) => (
-                        <CategoryContents
-                            key={category.id}
-                            onClick={() => handleCategoryClick(category.id)}
-                        >
-                            {category.name}
-                        </CategoryContents>
-                    ))}
-                    {!isAllCategoriesVisible && categories.length > 5 && (
-                        <MoreButton onClick={handleShowMoreClick}>
-                            더 보기
-                        </MoreButton>
-                    )}
-                </CategoryWrapper>
+                <Category />
                 <PriceRangeWrapper>
                     <h3>가격</h3>
                     <PriceRange onClick={() => handlePriceRangeClick(10, 30)}>
