@@ -60,7 +60,7 @@ const Category = () => {
 
     return (
         <div>
-            <h1>Category</h1>
+            <p>Category</p>
             <CategoryWrapper>
                 {visibleCategories.map((category) => (
                     <CategoryContents
