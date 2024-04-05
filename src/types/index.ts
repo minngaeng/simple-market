@@ -13,4 +13,4 @@ export type Product = {
     description: string;
     category: Pick<Category, 'id' | 'name' | 'image'>;
     imgaes: string[];
-}
+};
