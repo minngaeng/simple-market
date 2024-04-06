@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Category as CategoryType } from '../types';
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const CategoryWrapper = styled.div`
     list-style: none;
 `;
@@ -22,6 +24,7 @@ import { useGetCategories } from '../hooks/useGetCategories.ts';
 import { useEffect, useState } from 'react';
 
 const Category = () => {
+    const navigate = useNavigate();
     const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
 
     const { categories } = useGetCategories();
@@ -55,7 +58,7 @@ const Category = () => {
         const newRelativePathQuery =
             window.location.pathname + '?' + param.toString();
 
-        window.history.pushState(null, '', newRelativePathQuery);
+        navigate(newRelativePathQuery);
     };
 
     return (

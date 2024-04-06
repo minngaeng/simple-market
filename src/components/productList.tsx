@@ -1,23 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGetProducts } from '../hooks/useGetProducts';
 import qs from 'query-string';
 import { useLocation } from 'react-router-dom';
+import ProductCard from './productCard';
+import Pagination from 'rc-pagination';
+import "rc-pagination/assets/index.css"
 
 const ProductList = () => {
-    const { products } = useGetProducts();
     const location = useLocation();
-    // TODO: window.location.search에 변화가 있을 때마다 query를 업데이트하는 useEffect를 작성하세요.
+    const [query, setQuery] = useState<string>(location.search);
+    const { products, loading } = useGetProducts(query);
 
     useEffect(() => {
         const parsedQuery = qs.parse(location.search);
-        console.log(parsedQuery);
+        setQuery(qs.stringify(parsedQuery));
     }, [location.search]);
+
+    if (loading) {
+        return <p>상품을 로딩중입니다.</p>
+    }
 
     return (
         <div>
-            {products.map((el) => (
-                <div key={el.id}>{el.title}</div>
-            ))}
+            {products.length > 0 ? products.map((el) => (
+                <ProductCard key={el.id} product={el} />
+            )) :
+                <p>
+                    선택하신 필터에 맞는 상품이 없습니다. 필터를 다시 선택해주세요.
+                </p>
+            }
+            <Pagination total={25} />
         </div>
     );
 };

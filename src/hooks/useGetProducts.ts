@@ -8,6 +8,7 @@ export const useGetProducts = (query?: string) => {
     const [error, setError] = useState<boolean>(false);
 
     useEffect(() => {
+        setLoading(true);
         getProducts(query)
             .then((data) => {
                 setProducts(data);
@@ -18,7 +19,7 @@ export const useGetProducts = (query?: string) => {
                 setError(true);
                 setLoading(false);
             });
-    }, []);
+    }, [query]);
 
     return { products, loading, error };
 };
