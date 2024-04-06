@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Category as CategoryType } from '../types';
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const CategoryWrapper = styled.div`
     list-style: none;
 `;
@@ -22,6 +24,9 @@ import { useGetCategories } from '../hooks/useGetCategories.ts';
 import { useEffect, useState } from 'react';
 
 const Category = () => {
+    const navigate = useNavigate();
+    const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
+
     const { categories } = useGetCategories();
 
     const [visibleCategories, setVisibleCategories] = useState<CategoryType[]>([]);
@@ -43,31 +48,30 @@ const Category = () => {
     };
 
     const isSelected = (categoryId: number) => {
-        const param = new URLSearchParams(window.location.search);
-        console.log(param.get('categoryId'));
-        return categoryId === Number(param.get('categoryId'));
-        // TODO: Return true if the category is selected(not working yet)
+        return categoryId === selectedCategoryId;
     }
 
     const handleCategoryClick = (categoryId: number) => {
+        setSelectedCategoryId(categoryId);
         const param = new URLSearchParams(window.location.search);
         param.set('categoryId', categoryId.toString());
         const newRelativePathQuery =
             window.location.pathname + '?' + param.toString();
 
-        window.history.pushState(null, '', newRelativePathQuery);
+        navigate(newRelativePathQuery);
     };
 
     return (
         <div>
-            <h1>Category</h1>
+            <p>Category</p>
             <CategoryWrapper>
                 {visibleCategories.map((category) => (
                     <CategoryContents
                         key={category.id}
                         onClick={() => handleCategoryClick(category.id)}
                         style={{
-                            backgroundColor: isSelected(category.id) ? 'yellow' : ''
+                            backgroundColor: isSelected(category.id) ? 'white' : '',
+                            color: isSelected(category.id) ? '#242424' : 'inherit'
                         }}
                     >
                         {category.name}
