@@ -40,6 +40,12 @@ const ProductList = () => {
                 )}
             </div>
             <Pagination total={25} />
+            {/* TODO: Pagination 작업 순서 */}
+            {/*1. pagination UI 작업 -> UI 라이브러리를 설치 했으니 완료 ✅*/}
+            {/*2. 한페이지마다 몇개를 보여줄지를 정하고*/}
+            {/*3. offset, limit 계산작업*/}
+            {/*4. 페이지 숫자 버튼 누르면 offset, limit query params에 반영*/}
+            {/*5. query params가 바뀌면 상품이 잘 가져와지는지 확인*/}
         </div>
     );
 };
