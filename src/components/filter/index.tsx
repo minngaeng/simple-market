@@ -1,5 +1,6 @@
 import Category from './category.tsx';
 import PriceRangeWrapper from './priceRangeWrapper.tsx';
+import SearchKeyword from './searchKeyword.tsx';
 
 const Filter = () => {
     return (
@@ -10,6 +11,7 @@ const Filter = () => {
                 gap: '20px',
             }}
         >
+            <SearchKeyword />
             <Category />
             <PriceRangeWrapper />
         </div>
