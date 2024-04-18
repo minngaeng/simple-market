@@ -12,28 +12,21 @@ const ProductList = () => {
     const { products, loading } = useGetProducts(query);
     const itemsPerPage = 5;
 
-    useEffect(() => {
-        const parsedQuery = qs.parse(location.search);
-
-        setQuery(
-            qs.stringify({
-                ...parsedQuery,
-                limit: itemsPerPage,
-                offset: (parsedQuery.page - 1) * itemsPerPage,
-            })
-        );
-    }, [location.search]);
-
     const handlePage = (page: number) => {
         const parsedQuery = qs.parse(location.search);
+        console.log('parsedQuery', parsedQuery);
         const stringifiedQuery = qs.stringify({
             ...parsedQuery,
             page,
             limit: itemsPerPage,
             offset: (page - 1) * itemsPerPage,
         });
-        history.pushState(null, '', `?${stringifiedQuery}`);
+
+        window.history.pushState('', '', `?${stringifiedQuery}`);
     };
+
+    // parsedQuery {limit: '5', offset: '5', page: '2'}
+    // stringifiedQuery limit=5&offset=5&page=2
 
     if (loading) {
         return <p>상품을 로딩중입니다.</p>;
