@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useGetProducts } from '../../hooks/useGetProducts.ts';
 import qs from 'query-string';
 import { useLocation } from 'react-router-dom';
@@ -12,9 +12,9 @@ const ProductList = () => {
     const { products, loading } = useGetProducts(query);
     const itemsPerPage = 5;
 
-    const handlePage = (page: number) => {
+    const handlePagination = (page: number) => {
         const parsedQuery = qs.parse(location.search);
-        console.log('parsedQuery', parsedQuery);
+
         const stringifiedQuery = qs.stringify({
             ...parsedQuery,
             page,
@@ -23,10 +23,8 @@ const ProductList = () => {
         });
 
         window.history.pushState('', '', `?${stringifiedQuery}`);
+        setQuery(`?${stringifiedQuery}`);
     };
-
-    // parsedQuery {limit: '5', offset: '5', page: '2'}
-    // stringifiedQuery limit=5&offset=5&page=2
 
     if (loading) {
         return <p>상품을 로딩중입니다.</p>;
@@ -51,7 +49,7 @@ const ProductList = () => {
                     </p>
                 )}
             </div>
-            <Pagination total={25} onChange={handlePage} />
+            <Pagination total={25} onChange={handlePagination} />
             {/* TODO: Pagination 작업 순서 */}
             {/*1. pagination UI 작업 -> UI 라이브러리를 설치 했으니 완료 ✅*/}
             {/*2. 한페이지마다 몇개를 보여줄지를 정하고*/} 5개씩 보여주기로 결정
