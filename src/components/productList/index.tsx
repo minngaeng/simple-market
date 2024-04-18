@@ -10,11 +10,30 @@ const ProductList = () => {
     const location = useLocation();
     const [query, setQuery] = useState<string>(location.search);
     const { products, loading } = useGetProducts(query);
+    const itemsPerPage = 5;
 
     useEffect(() => {
         const parsedQuery = qs.parse(location.search);
-        setQuery(qs.stringify(parsedQuery));
+
+        setQuery(
+            qs.stringify({
+                ...parsedQuery,
+                limit: itemsPerPage,
+                offset: (parsedQuery.page - 1) * itemsPerPage,
+            })
+        );
     }, [location.search]);
+
+    const handlePage = (page: number) => {
+        const parsedQuery = qs.parse(location.search);
+        const stringifiedQuery = qs.stringify({
+            ...parsedQuery,
+            page,
+            limit: itemsPerPage,
+            offset: (page - 1) * itemsPerPage,
+        });
+        history.pushState(null, '', `?${stringifiedQuery}`);
+    };
 
     if (loading) {
         return <p>상품을 로딩중입니다.</p>;
@@ -39,10 +58,10 @@ const ProductList = () => {
                     </p>
                 )}
             </div>
-            <Pagination total={25} />
+            <Pagination total={25} onChange={handlePage} />
             {/* TODO: Pagination 작업 순서 */}
             {/*1. pagination UI 작업 -> UI 라이브러리를 설치 했으니 완료 ✅*/}
-            {/*2. 한페이지마다 몇개를 보여줄지를 정하고*/}
+            {/*2. 한페이지마다 몇개를 보여줄지를 정하고*/} 5개씩 보여주기로 결정
             {/*3. offset, limit 계산작업*/}
             {/*4. 페이지 숫자 버튼 누르면 offset, limit query params에 반영*/}
             {/*5. query params가 바뀌면 상품이 잘 가져와지는지 확인*/}
