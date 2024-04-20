@@ -1,27 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetProducts } from '../../hooks/useGetProducts.ts';
 import qs from 'query-string';
 import { useLocation } from 'react-router-dom';
 import ProductCard from './productCard.tsx';
 import Pagination from 'rc-pagination';
 import 'rc-pagination/assets/index.css';
+import { useNavigate } from 'react-router-dom';
+
+const PRODUCT_PER_PAGE = 5;
+const FIRST_PAGE = 1;
 
 const ProductList = () => {
+    const navigate = useNavigate()
     const location = useLocation();
-    const [query, setQuery] = useState<string>(location.search);
-    const { products, loading } = useGetProducts(query);
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const { products, loading } = useGetProducts(location.search);
+    const [currentPage, setCurrentPage] = useState<number>(FIRST_PAGE);
 
     const handlePagination = (page: number) => {
+        const parsed = qs.parse(window.location.search);
+        console.log('parsed', parsed);
+
+        const offset = (page - 1) * PRODUCT_PER_PAGE;
+        const limit = PRODUCT_PER_PAGE;
+
         setCurrentPage(page);
-        const parsed = qs.parse(query);
-        // console.log('parsed', parsed);
-        const stringifiedQuery = qs.stringify(parsed);
-        // console.log('stringifiedQuery', stringifiedQuery);
-        setQuery(stringifiedQuery);
+
+        // TODO: handleCategoryClick 함수와 겹치는 부분 유틸로 빼기
+        const param = new URLSearchParams(window.location.search);
+        // param.set("page", page.toString())
+        param.set('offset', offset.toString());
+        param.set('limit', limit.toString());
+
+        const pageQuery = window.location.pathname + '?' + param.toString()
+        console.log(pageQuery)
+        navigate(pageQuery)
     };
 
-    console.log('queyr', query);
 
     if (loading) {
         return <p>상품을 로딩중입니다.</p>;
@@ -51,12 +65,6 @@ const ProductList = () => {
                 onChange={handlePagination}
                 current={currentPage}
             />
-            {/* TODO: Pagination 작업 순서 */}
-            {/*1. pagination UI 작업 -> UI 라이브러리를 설치 했으니 완료 ✅*/}
-            {/*2. 한페이지마다 몇개를 보여줄지를 정하고*/} 5개씩 보여주기로 결정
-            {/*3. offset, limit 계산작업*/}
-            {/*4. 페이지 숫자 버튼 누르면 offset, limit query params에 반영*/}
-            {/*5. query params가 바뀌면 상품이 잘 가져와지는지 확인*/}
         </div>
     );
 };
