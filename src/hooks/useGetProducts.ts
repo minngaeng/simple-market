@@ -7,7 +7,11 @@ export const useGetProducts = (query?: string) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<boolean>(false);
 
+
     useEffect(() => {
+        if (query?.[0] === '?') {
+            query = query.slice(1);
+        }
         setLoading(true);
         getProducts(query)
             .then((data) => {

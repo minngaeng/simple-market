@@ -1,20 +1,46 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useGetProducts } from '../../hooks/useGetProducts.ts';
 import qs from 'query-string';
 import { useLocation } from 'react-router-dom';
 import ProductCard from './productCard.tsx';
 import Pagination from 'rc-pagination';
 import 'rc-pagination/assets/index.css';
+import { useNavigate } from 'react-router-dom';
+
+const PRODUCT_PER_PAGE = 5;
+const FIRST_PAGE = 1;
 
 const ProductList = () => {
+    const navigate = useNavigate()
     const location = useLocation();
-    const [query, setQuery] = useState<string>(location.search);
-    const { products, loading } = useGetProducts(query);
+    const { products, loading } = useGetProducts(location.search);
 
-    useEffect(() => {
-        const parsedQuery = qs.parse(location.search);
-        setQuery(qs.stringify(parsedQuery));
-    }, [location.search]);
+    const currentPage = useMemo(() => {
+        const params = qs.parse(location.search)
+        if (params.offset === undefined) {
+            return (FIRST_PAGE)
+        } else {
+            return (Number(params.offset) / PRODUCT_PER_PAGE + 1)
+        }
+    }, [window.location.search])
+
+    const handlePagination = (page: number) => {
+        const parsed = qs.parse(window.location.search);
+        console.log('parsed', parsed);
+
+        const offset = (page - 1) * PRODUCT_PER_PAGE;
+        const limit = PRODUCT_PER_PAGE;
+
+        // TODO: 4. priceRange 페이지의(updateURLParams), handleCategoryClick 함수와 겹치는 부분 유틸로 빼기
+        const param = new URLSearchParams(window.location.search);
+        param.set('offset', offset.toString());
+        param.set('limit', limit.toString());
+
+        const pageQuery = window.location.pathname + '?' + param.toString()
+        console.log(pageQuery)
+        navigate(pageQuery)
+    };
+
 
     if (loading) {
         return <p>상품을 로딩중입니다.</p>;
@@ -39,13 +65,11 @@ const ProductList = () => {
                     </p>
                 )}
             </div>
-            <Pagination total={25} />
-            {/* TODO: Pagination 작업 순서 */}
-            {/*1. pagination UI 작업 -> UI 라이브러리를 설치 했으니 완료 ✅*/}
-            {/*2. 한페이지마다 몇개를 보여줄지를 정하고*/}
-            {/*3. offset, limit 계산작업*/}
-            {/*4. 페이지 숫자 버튼 누르면 offset, limit query params에 반영*/}
-            {/*5. query params가 바뀌면 상품이 잘 가져와지는지 확인*/}
+            <Pagination
+                total={25}
+                onChange={handlePagination}
+                current={currentPage}
+            />
         </div>
     );
 };
