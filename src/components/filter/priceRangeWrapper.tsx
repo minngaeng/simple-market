@@ -56,17 +56,20 @@ const PriceRangeWrapper = () => {
     const updateURLParams = (params: URLSearchParams) => {
         const newRelativePathQuery =
             window.location.pathname + '?' + params.toString();
-        window.history.pushState(null, '', newRelativePathQuery);
+        window.history.pushState(null, '', newRelativePathQuery); // TODO: 1. navigate to new url
     };
+
     return (
         <Wrapper>
             <h3>Price</h3>
+            {/* TODO: 2. price range 선택시 다른 필터는 유지하고, 페이지만 초기화 */}
             <PriceRange onClick={() => handlePriceRangeClick(10, 30)}>
                 $10 ~ $30
             </PriceRange>
             <PriceRange onClick={() => handlePriceRangeClick(30, 50)}>
                 $30 ~ $50
             </PriceRange>
+            {/* TODO: 3. apply 눌렀을때도 2번과 마찬가지로 다른 필터는 유지하고, 페이지 초기화 */}
             <p>
                 <PriceInput
                     value={priceMin}

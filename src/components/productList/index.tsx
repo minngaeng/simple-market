@@ -31,7 +31,7 @@ const ProductList = () => {
         const offset = (page - 1) * PRODUCT_PER_PAGE;
         const limit = PRODUCT_PER_PAGE;
 
-        // TODO: handleCategoryClick 함수와 겹치는 부분 유틸로 빼기
+        // TODO: 4. priceRange 페이지의(updateURLParams), handleCategoryClick 함수와 겹치는 부분 유틸로 빼기
         const param = new URLSearchParams(window.location.search);
         param.set('offset', offset.toString());
         param.set('limit', limit.toString());
