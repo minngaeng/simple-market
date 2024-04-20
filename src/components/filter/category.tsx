@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Category as CategoryType } from '../../types';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { initPage } from '../../utils/page';
 
 const CategoryWrapper = styled.div`
     list-style: none;
@@ -60,7 +61,7 @@ const Category = () => {
         const param = new URLSearchParams(window.location.search);
         param.set('categoryId', categoryId.toString());
         const newRelativePathQuery =
-            window.location.pathname + '?' + param.toString();
+            window.location.pathname + '?' + initPage(param).toString();
 
         navigate(newRelativePathQuery);
     };
