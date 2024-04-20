@@ -21,6 +21,7 @@ const ProductList = () => {
             limit: itemsPerPage,
             offset: (page - 1) * itemsPerPage,
         });
+        console.log('stringifiedQuery', stringifiedQuery);
 
         window.history.pushState('', '', `?${stringifiedQuery}`);
         setQuery(`?${stringifiedQuery}`);

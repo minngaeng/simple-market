@@ -21,6 +21,7 @@ const CategoryContents = styled.p`
 const MoreButton = styled.button`
     width: 100%;
 `;
+
 import { useGetCategories } from '../../hooks/useGetCategories.ts';
 import { useEffect, useState } from 'react';
 
