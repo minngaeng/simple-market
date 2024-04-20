@@ -10,22 +10,18 @@ const ProductList = () => {
     const location = useLocation();
     const [query, setQuery] = useState<string>(location.search);
     const { products, loading } = useGetProducts(query);
-    const itemsPerPage = 5;
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const handlePagination = (page: number) => {
-        const parsedQuery = qs.parse(location.search);
-
-        const stringifiedQuery = qs.stringify({
-            ...parsedQuery,
-            page,
-            limit: itemsPerPage,
-            offset: (page - 1) * itemsPerPage,
-        });
-        console.log('stringifiedQuery', stringifiedQuery);
-
-        window.history.pushState('', '', `?${stringifiedQuery}`);
-        setQuery(`?${stringifiedQuery}`);
+        setCurrentPage(page);
+        const parsed = qs.parse(query);
+        // console.log('parsed', parsed);
+        const stringifiedQuery = qs.stringify(parsed);
+        // console.log('stringifiedQuery', stringifiedQuery);
+        setQuery(stringifiedQuery);
     };
+
+    console.log('queyr', query);
 
     if (loading) {
         return <p>상품을 로딩중입니다.</p>;
@@ -50,7 +46,11 @@ const ProductList = () => {
                     </p>
                 )}
             </div>
-            <Pagination total={25} onChange={handlePagination} />
+            <Pagination
+                total={25}
+                onChange={handlePagination}
+                current={currentPage}
+            />
             {/* TODO: Pagination 작업 순서 */}
             {/*1. pagination UI 작업 -> UI 라이브러리를 설치 했으니 완료 ✅*/}
             {/*2. 한페이지마다 몇개를 보여줄지를 정하고*/} 5개씩 보여주기로 결정
