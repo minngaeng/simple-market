@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useGetProducts } from '../../hooks/useGetProducts.ts';
 import qs from 'query-string';
 import { useLocation } from 'react-router-dom';
@@ -14,7 +14,15 @@ const ProductList = () => {
     const navigate = useNavigate()
     const location = useLocation();
     const { products, loading } = useGetProducts(location.search);
-    const [currentPage, setCurrentPage] = useState<number>(FIRST_PAGE);
+
+    const currentPage = useMemo(() => {
+        const params = qs.parse(location.search)
+        if (params.offset === undefined) {
+            return (FIRST_PAGE)
+        } else {
+            return (Number(params.offset) / PRODUCT_PER_PAGE + 1)
+        }
+    }, [window.location.search])
 
     const handlePagination = (page: number) => {
         const parsed = qs.parse(window.location.search);
@@ -23,11 +31,8 @@ const ProductList = () => {
         const offset = (page - 1) * PRODUCT_PER_PAGE;
         const limit = PRODUCT_PER_PAGE;
 
-        setCurrentPage(page);
-
         // TODO: handleCategoryClick 함수와 겹치는 부분 유틸로 빼기
         const param = new URLSearchParams(window.location.search);
-        // param.set("page", page.toString())
         param.set('offset', offset.toString());
         param.set('limit', limit.toString());
 
