@@ -6,6 +6,7 @@ import ProductCard from './productCard.tsx';
 import Pagination from 'rc-pagination';
 import 'rc-pagination/assets/index.css';
 import { useNavigate } from 'react-router-dom';
+import { updatedNavigate } from '../../utils/page.ts';
 
 const PRODUCT_PER_PAGE = 5;
 const FIRST_PAGE = 1;
@@ -36,8 +37,9 @@ const ProductList = () => {
         param.set('offset', offset.toString());
         param.set('limit', limit.toString());
 
-        const pageQuery = window.location.pathname + '?' + param.toString();
-        navigate(pageQuery);
+        // const pageQuery = window.location.pathname + '?' + param.toString();
+        // navigate(pageQuery);
+        updatedNavigate(param, navigate);
     };
 
     if (loading) {

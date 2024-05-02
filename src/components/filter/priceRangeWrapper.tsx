@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { updatedNavigate } from '../../utils/page';
 
 const Wrapper = styled.div``;
 
@@ -52,21 +53,22 @@ const PriceRangeWrapper = () => {
         if (priceMin && priceMax) {
             if (priceMin) params.set('price_min', priceMin);
             if (priceMax) params.set('price_max', priceMax);
-            updateURLParams(params);
+            // updateURLParams(params);
 
             params.delete('offset');
             params.set('limit', PRODUCT_PER_PAGE.toString());
-            updateURLParams(params);
+            // updateURLParams(params);
         }
-
+        updatedNavigate(params, navigate);
         setPriceMin('');
         setPriceMax('');
     };
 
     const updateURLParams = (params: URLSearchParams) => {
-        const newPath = `${window.location.pathname}?${params.toString()}`;
+        // const newPath = `${window.location.pathname}?${params.toString()}`;
         // TODO: 1. navigate to new url
-        navigate(newPath);
+        // navigate(newPath);
+        updatedNavigate(params, navigate);
     };
 
     return (
