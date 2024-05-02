@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useGetProducts } from '../../hooks/useGetProducts.ts';
 import qs from 'query-string';
 import { useLocation } from 'react-router-dom';
@@ -11,18 +11,18 @@ const PRODUCT_PER_PAGE = 5;
 const FIRST_PAGE = 1;
 
 const ProductList = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const location = useLocation();
     const { products, loading } = useGetProducts(location.search);
 
     const currentPage = useMemo(() => {
-        const params = qs.parse(location.search)
+        const params = qs.parse(location.search);
         if (params.offset === undefined) {
-            return (FIRST_PAGE)
+            return FIRST_PAGE;
         } else {
-            return (Number(params.offset) / PRODUCT_PER_PAGE + 1)
+            return Number(params.offset) / PRODUCT_PER_PAGE + 1;
         }
-    }, [window.location.search])
+    }, [window.location.search]);
 
     const handlePagination = (page: number) => {
         const parsed = qs.parse(window.location.search);
@@ -36,11 +36,10 @@ const ProductList = () => {
         param.set('offset', offset.toString());
         param.set('limit', limit.toString());
 
-        const pageQuery = window.location.pathname + '?' + param.toString()
-        console.log(pageQuery)
-        navigate(pageQuery)
+        const pageQuery = window.location.pathname + '?' + param.toString();
+        console.log(pageQuery);
+        navigate(pageQuery);
     };
-
 
     if (loading) {
         return <p>상품을 로딩중입니다.</p>;

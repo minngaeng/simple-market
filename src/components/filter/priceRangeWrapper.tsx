@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div``;
 
@@ -27,6 +28,7 @@ const ApplyButton = styled.button`
 `;
 
 const PriceRangeWrapper = () => {
+    const navigate = useNavigate();
 
     const [priceMin, setPriceMin] = useState<string>('');
     const [priceMax, setPriceMax] = useState<string>('');
@@ -54,9 +56,9 @@ const PriceRangeWrapper = () => {
     };
 
     const updateURLParams = (params: URLSearchParams) => {
-        const newRelativePathQuery =
-            window.location.pathname + '?' + params.toString();
-        window.history.pushState(null, '', newRelativePathQuery); // TODO: 1. navigate to new url
+        const newPath = `${window.location.pathname}?${params.toString()}`;
+        // TODO: 1. navigate to new url
+        navigate(newPath);
     };
 
     return (
@@ -86,7 +88,7 @@ const PriceRangeWrapper = () => {
                 </ApplyButton>
             </p>
         </Wrapper>
-    )
-}
+    );
+};
 
 export default PriceRangeWrapper;
