@@ -53,6 +53,10 @@ const PriceRangeWrapper = () => {
             if (priceMin) params.set('price_min', priceMin);
             if (priceMax) params.set('price_max', priceMax);
             updateURLParams(params);
+
+            params.delete('offset');
+            params.set('limit', PRODUCT_PER_PAGE.toString());
+            updateURLParams(params);
         }
 
         setPriceMin('');
