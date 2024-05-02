@@ -27,6 +27,8 @@ const ApplyButton = styled.button`
     }
 `;
 
+const PRODUCT_PER_PAGE = 5;
+
 const PriceRangeWrapper = () => {
     const navigate = useNavigate();
 
@@ -37,6 +39,8 @@ const PriceRangeWrapper = () => {
         const params = new URLSearchParams(window.location.search);
         params.set('price_min', min.toString());
         params.set('price_max', max.toString());
+        params.delete('offset');
+        params.set('limit', PRODUCT_PER_PAGE.toString());
         updateURLParams(params);
         setPriceMin('');
         setPriceMax('');

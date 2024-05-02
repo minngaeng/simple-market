@@ -37,7 +37,6 @@ const ProductList = () => {
         param.set('limit', limit.toString());
 
         const pageQuery = window.location.pathname + '?' + param.toString();
-        console.log(pageQuery);
         navigate(pageQuery);
     };
 
