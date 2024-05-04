@@ -65,23 +65,20 @@ const PriceRangeWrapper = () => {
     };
 
     const updateURLParams = (params: URLSearchParams) => {
-        // const newPath = `${window.location.pathname}?${params.toString()}`;
-        // TODO: 1. navigate to new url
-        // navigate(newPath);
         updatedNavigate(params, navigate);
     };
 
     return (
         <Wrapper>
             <h3>Price</h3>
-            {/* TODO: 2. price range 선택시 다른 필터는 유지하고, 페이지만 초기화 */}
             <PriceRange onClick={() => handlePriceRangeClick(10, 30)}>
                 $10 ~ $30
             </PriceRange>
             <PriceRange onClick={() => handlePriceRangeClick(30, 50)}>
                 $30 ~ $50
             </PriceRange>
-            {/* TODO: 3. apply 눌렀을때도 2번과 마찬가지로 다른 필터는 유지하고, 페이지 초기화 */}
+            {/* TODO: UX - 지금 적용된 price range를 표시해주기(버튼 색 변경) */}
+            {/* 레퍼런스 찾아서 구현해보기 */}
             <p>
                 <PriceInput
                     value={priceMin}
